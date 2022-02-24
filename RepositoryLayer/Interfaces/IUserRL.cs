@@ -10,5 +10,10 @@ namespace RepositoryLayer.Interfaces
     public interface IUserRL
     {
         public User Registration(UserRegModel userRegModel);
+
+
+        public LoginResponseModel UserLogin(UserLoginModel userLog);
+
     }
+
 }
