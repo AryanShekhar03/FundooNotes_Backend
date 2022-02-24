@@ -1,0 +1,8 @@
+bin/
+obj/
+.vs/
+FundooNotes.sln
+FundooNotes.csproj
+BusinessLayer.csproj
+CommonLayer.csproj
+RepositoryLayer.csproj
