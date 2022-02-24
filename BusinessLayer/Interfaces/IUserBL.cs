@@ -11,5 +11,7 @@ namespace BusinessLayer.Interfaces
 
         public User Registration(UserRegModel userRegModel);
 
+        public LoginResponseModel UserLogin(UserLoginModel userLog);
+
     }
 }

@@ -36,5 +36,31 @@ namespace FundooNotes.Controllers
                 throw;
             }
         }
+
+
+        /// <summary>
+        /// Only for Email Login
+        /// </summary>
+        /// <param name="userLogin"></param>
+        /// <returns></returns>///
+        [HttpPost("AllLogin")]
+        public IActionResult UserLogin(UserLoginModel userLog)
+        {
+            try
+            {
+                var result = userBL.UserLogin(userLog);
+                if (result != null)
+                {
+                    return this.Ok(new { success = true, message = "Login Successful",  });
+                }
+                else
+                    return this.BadRequest(new { success = false, message = "Login Unsuccessful" });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
+
