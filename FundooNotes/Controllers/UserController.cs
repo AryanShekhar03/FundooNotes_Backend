@@ -51,7 +51,7 @@ namespace FundooNotes.Controllers
                 var result = userBL.UserLogin(userLog);
                 if (result != null)
                 {
-                    return this.Ok(new { success = true, message = "Login Successful",  });
+                    return this.Ok(new { success = true, message = "Login Successful", data = result });
                 }
                 else
                     return this.BadRequest(new { success = false, message = "Login Unsuccessful" });

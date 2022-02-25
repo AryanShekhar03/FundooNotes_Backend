@@ -1,5 +1,4 @@
 ﻿using CommonLayer.Models;
-using CommonLayer.Models;
 using RepositoryLayer.Entities;
 using System;
 using System.Collections.Generic;
