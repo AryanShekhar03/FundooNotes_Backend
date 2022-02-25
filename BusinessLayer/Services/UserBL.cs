@@ -15,30 +15,59 @@ namespace BusinessLayer.Services
         {
             this.userRL = userRL;
         }
-        public User Registration(UserRegModel userRegModel)
-        {
-           try
-           {
-                return userRL.Registration(userRegModel);
-           }
-           catch(Exception)
-           {
-                throw;
-           }
 
-
-        }
-
-        public LoginResponseModel UserLogin(UserLoginModel userLog)
+        public string ForgetPassword(string email)
         {
             try
             {
-                return this.userRL.UserLogin(userLog);
+                return userRL.ForgetPassword(email);
             }
             catch (Exception)
             {
+
                 throw;
             }
         }
+            public User Registration(UserRegModel userRegModel)
+            {
+                try
+                {
+                    return userRL.Registration(userRegModel);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+
+
+            }
+
+            public LoginResponseModel UserLogin(UserLoginModel userLog)
+            {
+                try
+                {
+                    return this.userRL.UserLogin(userLog);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+           public bool ResetPassword(string email, string password, string confirmPassword)
+           {
+               try
+               {
+                 return this.userRL.ResetPassword(email, password, confirmPassword);
+               }
+               catch (Exception)
+               {
+
+                throw;
+               }
+           }
+
+
+
+
     }
 }
