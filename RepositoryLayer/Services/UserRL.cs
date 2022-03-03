@@ -95,13 +95,13 @@ namespace RepositoryLayer.Services
         /// <param name="Email"></param>
         /// <param name="Id"></param>
         /// <returns></returns>
-        private string GenerateSecurityToken(string Email, long Id)
+        private string GenerateSecurityToken(string Email, long UserId)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_Appsettings["Jwt:SecKey"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new[] {
                 new Claim(ClaimTypes.Email,Email),
-                new Claim("Id",Id.ToString())
+                new Claim("UserId",UserId.ToString())
             };
             var token = new JwtSecurityToken(_Appsettings["Jwt:Issuer"],
               _Appsettings["Jwt:Issuer"],

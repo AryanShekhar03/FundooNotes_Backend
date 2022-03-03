@@ -23,7 +23,7 @@ namespace FundooNotes
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }//to read the connection string stored in appsetting.json we use Iconfiguration
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -101,7 +101,11 @@ namespace FundooNotes
 
             services.AddTransient<IUserBL, UserBL>();
             services.AddTransient<IUserRL, UserRL>();
+            // notes service
+            services.AddTransient<INotesBL, NotesBL>();
+            services.AddTransient<INotesRL, NotesRL>();
         }
+    
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
