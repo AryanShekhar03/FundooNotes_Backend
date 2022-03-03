@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace FundooNotes.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UserController : ControllerBase
+    [Route("api/[controller]")] //Route is  matching incoming HTTP requests.
+    [ApiController]//To enable Routing Requirements.
+    public class UserController : ControllerBase //To handle http request
     {
         private readonly IUserBL userBL;
         public UserController(IUserBL userBL)
@@ -65,7 +65,7 @@ namespace FundooNotes.Controllers
     
         }
         [HttpPost("ForgotPassword")]
-        public IActionResult ForgotPassword(string email)
+        public IActionResult ForgotPassword(string email)  //IActionResult let us return both data and HTTP codes.
         {
             try
             {
@@ -87,7 +87,7 @@ namespace FundooNotes.Controllers
         [Authorize]
         [HttpPost("ResetPassword")]
 
-        public IActionResult ResetPassword(string password, string confirmPassword)
+        public IActionResult ResetPassword(string password, string confirmPassword)  //IActionResult let us return both data and HTTP codes.
         {
             try
             {

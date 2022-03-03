@@ -8,8 +8,8 @@ namespace RepositoryLayer.Entities
 {
     public class Notes
     { 
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key] /// DataAnnotation for setting the primary Key value.
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Generaters the values for the database Id's.
 
         public long NotesId { get; set; }
         public string Title { get; set; }
@@ -23,7 +23,10 @@ namespace RepositoryLayer.Entities
         public string Color { get; set; }
         public string Image { get; set; }
         //foreign key
-        public User User { get; set; }
+        [ForeignKey("user")]
+        public long UserId { get; set; }
+        public virtual User user { get; set; }
+
 
     }
 }

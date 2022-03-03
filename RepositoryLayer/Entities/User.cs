@@ -9,8 +9,8 @@ namespace RepositoryLayer.Entities
 {
     public class User
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]  /// DataAnnotation for setting the primary Key value.
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)] // Generaters the values for the database Id's.
         public long Id { get; set; }
 
         [Required]
@@ -31,6 +31,6 @@ namespace RepositoryLayer.Entities
         public DateTime? CreatedAt { get; set; }
         public DateTime? ModifiedAt { get; set; }
 
-        public ICollection<Notes> Notes { get; set; }
+        
     }
 }

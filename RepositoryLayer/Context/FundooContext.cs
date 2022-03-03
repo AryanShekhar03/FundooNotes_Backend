@@ -8,13 +8,12 @@ namespace RepositoryLayer.Context
 {
     public class FundooContext : DbContext
     {
-        public FundooContext(DbContextOptions options)
+        public FundooContext(DbContextOptions options)//To pass configuration info to DbContext use DbContext options instance
             :base(options)
         {
         }
-        public DbSet<User> UserTables { get; set; }
+        public DbSet<Notes> NotesTable { get; set; }//table name on DB holds the result from DB
+        public DbSet<User> UserTables { get; set; }//table name on DB holds the result from DB
 
-        
-        
     }
 }

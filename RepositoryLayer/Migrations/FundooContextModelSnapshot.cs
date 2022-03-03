@@ -56,14 +56,14 @@ namespace RepositoryLayer.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("UserId")
+                    b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("NotesId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notes");
+                    b.ToTable("NotesTable");
                 });
 
             modelBuilder.Entity("RepositoryLayer.Entities.User", b =>
@@ -102,9 +102,11 @@ namespace RepositoryLayer.Migrations
 
             modelBuilder.Entity("RepositoryLayer.Entities.Notes", b =>
                 {
-                    b.HasOne("RepositoryLayer.Entities.User", "User")
-                        .WithMany("Notes")
-                        .HasForeignKey("UserId");
+                    b.HasOne("RepositoryLayer.Entities.User", "user")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
