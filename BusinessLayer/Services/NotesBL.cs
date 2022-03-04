@@ -4,7 +4,7 @@ using RepositoryLayer.Entities;
 using System;
 using System.Collections.Generic;
 using RepositoryLayer.Interfaces;
-
+using Microsoft.AspNetCore.Http;
 
 namespace BusinessLayer.Services
 {
@@ -61,6 +61,18 @@ namespace BusinessLayer.Services
             try
             {
                 return this.notesRL.GetAllNotes(userId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool Image(long NotesID, IFormFile Image)
+        {
+            try
+            {
+                return this.notesRL.Image(NotesID, Image);
             }
             catch (Exception)
             {

@@ -7,6 +7,9 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 using System.Data;
+using Microsoft.AspNetCore.Http;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 
 namespace RepositoryLayer.Services
 {
@@ -224,7 +227,42 @@ namespace RepositoryLayer.Services
             }
         }
 
+        public bool Image(long NotesID, IFormFile Image)
+        {
+            try
+            {
+                var notes = this.fundooContext.NotesTable.Where(x => x.NotesId == NotesID).FirstOrDefault();
+                if (notes != null)
+                {
+                    Account account = new Account
+                    (
+                    _Toolsettings["CloudinaryAccount:cloud_Name"],
+                    _Toolsettings["CloudinaryAccount:api_key"],
+                    _Toolsettings["CloudinaryAccount:api_secret"]
+                    );
+                    var path = Image.OpenReadStream();
+                    Cloudinary cloudinary = new Cloudinary(account);
+                    ImageUploadParams uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(Image.FileName, path)
+                    };
+                    var uploadResult = cloudinary.Upload(uploadParams);
+                    fundooContext.NotesTable.Attach(notes);
+                    notes.Image = uploadResult.Url.ToString();
+                    fundooContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
 
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 
     

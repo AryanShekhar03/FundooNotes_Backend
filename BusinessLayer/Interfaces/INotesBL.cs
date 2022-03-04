@@ -1,4 +1,5 @@
 ﻿using CommonLayer.Models;
+using Microsoft.AspNetCore.Http;
 using RepositoryLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -23,5 +24,7 @@ namespace BusinessLayer.Interfaces
         public string TrashNotes(long NotesID);
 
         public string Notescolor(long NotesID, string color);
+
+        public bool Image(long NotesID, IFormFile Image);// IFormFile GENERATED from using Microsoft.AspNetCore.Http namespace
     }
 }
