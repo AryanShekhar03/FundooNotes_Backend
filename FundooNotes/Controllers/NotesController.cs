@@ -203,6 +203,29 @@ namespace FundooNotes.Controllers
             }
         }
 
+        [HttpPut("Image")]
+        public IActionResult Image(long NotesID, IFormFile Image)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                if (this.notesBL.Image(NotesID, Image))
+                {
+                    return this.Ok(new { Status = true, message = "success" });
+                }
+                else
+                {
+                    return this.BadRequest(new { Status = false, message = "failed" });
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
+            }
+
+        }
     }
 
 }
