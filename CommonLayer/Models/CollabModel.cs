@@ -6,7 +6,7 @@ namespace CommonLayer.Models
 {
     public class CollabModel
     {
-        public long NotesId { get; set; }
+        public long NotesID { get; set; }
         public string CollabEmail { get; set; }
     }
 }

@@ -15,5 +15,7 @@ namespace RepositoryLayer.Context
         public DbSet<Notes> NotesTable { get; set; }//table name on DB holds the result from DB
         public DbSet<User> UserTables { get; set; }//table name on DB holds the result from DB
 
+        public DbSet<Collaborator> CollabTable { get; set; }
+
     }
 }
