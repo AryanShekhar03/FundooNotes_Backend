@@ -12,6 +12,8 @@ namespace RepositoryLayer.Interfaces
 
        public IEnumerable<Collaborator> GetCollabsByNoteId(long NotesId);
 
+       public string RemoveCollab(long CollabId);
+
 
     }
 }
