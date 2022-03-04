@@ -11,14 +11,14 @@ namespace RepositoryLayer.Entities
 
             
 
-            [Key]
-            [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+            [Key]/// DataAnnotation for setting the primary Key value.
+            [DatabaseGenerated(DatabaseGeneratedOption.Identity)]// Generaters the values for the database Id's
             public long CollabId { get; set; }
             public string CollabEmail { get; set; }
 
             [ForeignKey("Notes")]
             public long NotesId { get; set; }
-            public virtual Notes note { get; set; }
+            public virtual Notes notes { get; set; }
 
             [ForeignKey("user")]
             public long UserId { get; set; }
