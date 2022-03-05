@@ -18,7 +18,7 @@ namespace FundooNotes
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration) //IConfiguration interface is used to read Settings and Connection Strings from AppSettings.
         {
             Configuration = configuration;
         }
@@ -26,7 +26,7 @@ namespace FundooNotes
         public IConfiguration Configuration { get; }//to read the connection string stored in appsetting.json we use Iconfiguration
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)//Register services
         {
             services.AddDbContext<FundooContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:FundooDB"]));
             services.AddControllers();
@@ -98,15 +98,19 @@ namespace FundooNotes
                 };
 
             });
-
+            //userservice
             services.AddTransient<IUserBL, UserBL>();
             services.AddTransient<IUserRL, UserRL>();
             // notes service
             services.AddTransient<INotesBL, NotesBL>();
             services.AddTransient<INotesRL, NotesRL>();
-
+            //Collaborator service
             services.AddTransient<ICollabBL, CollabBL>();
             services.AddTransient<ICollabRL, CollabRL>();
+
+            // Labels service
+            services.AddTransient<ILabelBL, LabelBL>();
+            services.AddTransient<ILabelRL, LabelRL>();
         }
     
 

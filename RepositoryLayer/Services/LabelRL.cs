@@ -1,4 +1,5 @@
 ﻿using CommonLayer.Models;
+using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Context;
 using RepositoryLayer.Entities;
 using RepositoryLayer.Interfaces;
@@ -11,10 +12,12 @@ namespace RepositoryLayer.Services
 {
     public class LabelRL :ILabelRL
     {
-        public readonly FundooContext fundooContext; //context class is used to query or save data to the database.
-        public LabelRL(FundooContext fundooContext)
+        public readonly FundooContext fundooContext;//context class is used to query or save data to the database.
+        IConfiguration _Toolsettings;  //IConfiguration interface is used to read Settings and Connection Strings from AppSettings.
+        public LabelRL(FundooContext fundooContext, IConfiguration Toolsettings)
         {
             this.fundooContext = fundooContext;
+            _Toolsettings = Toolsettings;
         }
 
         public bool AddLabel(LabelModel labelModel)
@@ -26,7 +29,7 @@ namespace RepositoryLayer.Services
                 {
                     Label label = new Label();
                     label.LabelName = labelModel.LabelName;
-                    label.NoteId = note.NotesId;
+                    label.NotesId = note.NotesId;
                     label.UserId = note.UserId;
 
                     this.fundooContext.LabelsTable.Add(label);
@@ -42,6 +45,42 @@ namespace RepositoryLayer.Services
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        public bool DeleteLabel(long labelId)
+        {
+            try
+            {
+                var check = this.fundooContext.LabelsTable.Where(x => x.LabelID == labelId).FirstOrDefault();
+                this.fundooContext.LabelsTable.Remove(check);
+                int result = this.fundooContext.SaveChanges();
+                if (result > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public IEnumerable<Label> GetlabelByNotesId(long NotesId)
+        {
+            try
+            {
+                var response = this.fundooContext.LabelsTable.Where(x => x.NotesId == NotesId).ToList();
+                return response;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
     }

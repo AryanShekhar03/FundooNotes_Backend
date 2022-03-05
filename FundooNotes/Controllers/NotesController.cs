@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace FundooNotes.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [Authorize]
-    public class NotesController : ControllerBase
+    [Route("api/[controller]")] //Route is  matching incoming HTTP requests.
+    [ApiController] //To enable Routing Requirements.
+    [Authorize] //user to grant and restrict permissions on Web pages.
+    public class NotesController : ControllerBase //To handle http request
     {
-        private readonly INotesBL notesBL;
+        private readonly INotesBL notesBL;  // readonly can only be assigned a value from within the constructor(s) of a class.
 
         public NotesController(INotesBL notesBL)
         {
@@ -25,7 +25,7 @@ namespace FundooNotes.Controllers
 
         [HttpPost]
         [Route("CreateNotes")]
-        public IActionResult CreateNotes(NotesModel notesmodel)
+        public IActionResult CreateNotes(NotesModel notesmodel) //IActionResult lets you return both data and HTTP codes.
 
         {
             try

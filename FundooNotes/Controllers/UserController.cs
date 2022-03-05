@@ -15,13 +15,13 @@ namespace FundooNotes.Controllers
     [ApiController]//To enable Routing Requirements.
     public class UserController : ControllerBase //To handle http request
     {
-        private readonly IUserBL userBL;
+        private readonly IUserBL userBL; // readonly can only be assigned a value from within the constructor(s) of a class.
         public UserController(IUserBL userBL)
         {
             this.userBL = userBL;
         }
         [HttpPost("Register")]
-        public IActionResult addUser(UserRegModel userRegModel)
+        public IActionResult addUser(UserRegModel userRegModel) //IActionResult lets you return both data and HTTP codes.
         {
             try
             {
@@ -40,11 +40,6 @@ namespace FundooNotes.Controllers
         }
 
 
-        /// <summary>
-        /// Only for Email Login
-        /// </summary>
-        /// <param name="userLogin"></param>
-        /// <returns></returns>///
         [HttpPost("AllLogin")]
         public IActionResult UserLogin(UserLoginModel userLog)
         {

@@ -19,7 +19,7 @@ namespace RepositoryLayer.Entities
         public virtual User user { get; set; }
 
         [ForeignKey("note")]
-        public long NoteId { get; set; }
+        public long NotesId { get; set; }
         public virtual Notes notes { get; set; }
     }
 }
