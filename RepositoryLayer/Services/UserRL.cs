@@ -16,8 +16,8 @@ namespace RepositoryLayer.Services
 {
     public class UserRL : IUserRL
     {
-        private readonly FundooContext fundooContext;
-        IConfiguration _Appsettings;
+        private readonly FundooContext fundooContext; //context class is used to query or save data to the database.
+        IConfiguration _Appsettings;  //IConfiguration interface is used to read Settings and Connection Strings from AppSettings.
 
         public UserRL(FundooContext fundooContext, IConfiguration Appsettings)
         {
@@ -25,11 +25,7 @@ namespace RepositoryLayer.Services
             _Appsettings = Appsettings;
         }
 
-        /// <summary>
-        /// User Registration
-        /// </summary>
-        /// <param name="userRegModel"></param>
-        /// <returns></returns>
+        
         public User Registration(UserRegModel userRegModel)
         {
             try
@@ -54,11 +50,7 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-        /// <summary>
-        /// Show All Registerd Login Data
-        /// </summary>
-        /// <param name="userLog"></param>
-        /// <returns></returns>
+
         public LoginResponseModel UserLogin(UserLoginModel userLog)
         {
             try
@@ -89,24 +81,19 @@ namespace RepositoryLayer.Services
             }
         }
 
-        /// <summary>
-        /// Generating Security Token
-        /// </summary>
-        /// <param name="Email"></param>
-        /// <param name="Id"></param>
-        /// <returns></returns>
-        private string GenerateSecurityToken(string Email, long UserId)
+        
+        private string GenerateSecurityToken(string Email, long UserId)  //Generating token
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_Appsettings["Jwt:SecKey"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_Appsettings["Jwt:SecKey"])); // Adding a securiy key in appsettings.json
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256); // identity model for security.
             var claims = new[] {
-                new Claim(ClaimTypes.Email,Email),
+                new Claim(ClaimTypes.Email,Email), // Access Claim values in controller.
                 new Claim("UserId",UserId.ToString())
             };
-            var token = new JwtSecurityToken(_Appsettings["Jwt:Issuer"],
-              _Appsettings["Jwt:Issuer"],
+            var token = new JwtSecurityToken(_Appsettings["Jwt:Issuer"], //we specify the values for the issuer, security key.
+             _Appsettings["Jwt:Issuer"],
               claims,
-              expires: DateTime.Now.AddMinutes(60),
+              expires: DateTime.Now.AddMinutes(60),//token time till it will active
               signingCredentials: credentials);
             return new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler().WriteToken(token);
         }
@@ -115,7 +102,7 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                var existingLogin = this.fundooContext.UserTables.Where(X => X.Email == email).FirstOrDefault();
+                var existingLogin = this.fundooContext.UserTables.Where(X => X.Email == email).FirstOrDefault(); //selecting Email from a table in DB.
                 if (existingLogin != null)
                 {
                     var token = GenerateSecurityToken(email, existingLogin.Id);
@@ -135,7 +122,7 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                if (password.Equals(confirmPassword))
+                if (password.Equals(confirmPassword)) // comparing of passwords.
                 {
                     User user = fundooContext.UserTables.Where(e => e.Email == email).FirstOrDefault();
                     user.Password = confirmPassword;

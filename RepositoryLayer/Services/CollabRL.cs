@@ -14,7 +14,7 @@ namespace RepositoryLayer.Services
     {
 
         public readonly FundooContext fundooContext; //context class is used to query or save data to the database.
-        public CollabRL(FundooContext fundooContext)
+        public CollabRL(FundooContext fundooContext)  
         {
             this.fundooContext = fundooContext;
         }

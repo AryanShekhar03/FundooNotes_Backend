@@ -33,9 +33,9 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                long userid = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
                 var labelNote = this.fundooContext.NotesTable.Where(x => x.NotesId == labelModel.NotesId).SingleOrDefault();
-                if (labelNote.UserId == userid)
+                if (labelNote.UserId == userId)
                 {
                     var result = this.labelBL.AddLabel(labelModel);
                     if (result)
@@ -52,6 +52,50 @@ namespace FundooNotes.Controllers
             catch (Exception e)
             {
                 return this.BadRequest(new { status = 400, isSuccess = false, Message = e.InnerException.Message });
+            }
+        }
+
+        [HttpGet("Detail")]
+        public IActionResult GetlabelByNotesId(long NotesId)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                var notesid = this.labelBL.GetlabelByNotesId(NotesId);
+                if (notesid != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Label Found successfully", data = notesid });
+                }
+                else
+                {
+                    return this.BadRequest(new { Status = false, Message = "Label  not Found " });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
+            }
+        }
+
+        [HttpDelete("Delete")]
+        public IActionResult DeleteLabel(long labelId)
+        {
+            try
+
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+                if (this.labelBL.DeleteLabel(labelId))
+                {
+                    return this.Ok(new { Success = true, message = "label Deleted successfully" });
+                }
+                else
+                {
+                    return this.BadRequest(new { Success = false, message = "No Such label Found" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
             }
         }
 

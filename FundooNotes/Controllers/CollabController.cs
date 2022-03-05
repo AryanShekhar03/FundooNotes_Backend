@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace FundooNotes.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CollabController : ControllerBase
+    [Route("api/[controller]")] //Route is  matching incoming HTTP requests.
+    [ApiController] //To enable Routing Requirements.
+    public class CollabController : ControllerBase //To handle http request
     {
-        private readonly ICollabBL collabBL;
+        private readonly ICollabBL collabBL;  // readonly can only be assigned a value from within the constructor(s) of a class.
         private readonly FundooContext fundooContext;
 
         public CollabController(ICollabBL collabBL, FundooContext fundooContext)
