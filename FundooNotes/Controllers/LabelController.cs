@@ -78,13 +78,13 @@ namespace FundooNotes.Controllers
         }
 
         [HttpDelete("Delete")]
-        public IActionResult DeleteLabel(long labelId)
+        public IActionResult DeleteLabel(long labelID)
         {
             try
 
             {
                 long userId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
-                if (this.labelBL.DeleteLabel(labelId))
+                if (this.labelBL.DeleteLabel(labelID))
                 {
                     return this.Ok(new { Success = true, message = "label Deleted successfully" });
                 }
@@ -96,6 +96,33 @@ namespace FundooNotes.Controllers
             catch (Exception ex)
             {
                 return this.BadRequest(new { Status = false, message = ex.InnerException.Message });
+                
+            }
+        }
+
+        [HttpPut("Update")]
+        public IActionResult UpdateLabel(LabelModel labelModel, long labelID)
+        {
+            try
+            {
+                long userId = Convert.ToInt32(User.Claims.FirstOrDefault(Y => Y.Type == "UserID").Value);
+                var result = this.labelBL.UpdateLabel(labelModel ,labelID);
+                if (result != null) 
+                {
+                    return this.Ok(new { status = 200, isSuccess = true, message = "Label Updated Successfully", data = result });
+
+                }
+                else
+                {
+                    return this.BadRequest(new { status = false, message = "Label not found" });
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                return this.BadRequest(new { Status = 401, isSuccess = false, Message = ex.InnerException.Message });
             }
         }
 

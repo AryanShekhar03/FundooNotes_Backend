@@ -33,11 +33,11 @@ namespace BusinessLayer.Services
             }
         }
 
-        public bool DeleteLabel(long labelId)
+        public bool DeleteLabel(long labelID)
         {
             try
             {
-                return labelRL.DeleteLabel(labelId);
+                return labelRL.DeleteLabel(labelID);
             }
             catch (Exception)
             {
@@ -53,6 +53,20 @@ namespace BusinessLayer.Services
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
+
+        public string UpdateLabel(LabelModel labelModel, long labelID)
+        {
+            try
+            {
+                return labelRL.UpdateLabel(labelModel,labelID);
+
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

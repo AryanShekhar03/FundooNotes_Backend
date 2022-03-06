@@ -48,11 +48,11 @@ namespace RepositoryLayer.Services
             }
         }
 
-        public bool DeleteLabel(long labelId)
+        public bool DeleteLabel(long labelID)
         {
             try
             {
-                var check = this.fundooContext.LabelsTable.Where(x => x.LabelID == labelId).FirstOrDefault();
+                var check = this.fundooContext.LabelsTable.Where(x => x.LabelID == labelID).FirstOrDefault();
                 this.fundooContext.LabelsTable.Remove(check);
                 int result = this.fundooContext.SaveChanges();
                 if (result > 0)
@@ -82,6 +82,31 @@ namespace RepositoryLayer.Services
             {
                 throw new Exception(e.Message);
             }
+        }
+
+        public string UpdateLabel(LabelModel labelModel, long labelID)
+        {
+            try
+            {
+                var update = fundooContext.LabelsTable.Where(X => X.LabelID == labelID).FirstOrDefault();
+                if (update != null && update.LabelID == labelID)
+                {
+                    update.LabelName = labelModel.LabelName;
+                    update.NotesId = labelModel.NotesId;
+
+                    this.fundooContext.SaveChanges();
+                    return "Label is modified";
+                }
+                else
+                {
+                    return "Label is not modified";
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
     }
     
