@@ -10,6 +10,8 @@ namespace BusinessLayer.Interfaces
     {
         public bool AddLabel(LabelModel labelModel);
         public IEnumerable<Label> GetlabelByNotesId(long NotesId);
-        public bool DeleteLabel(long labelId);
+        public bool DeleteLabel(long labelID);
+
+        public string UpdateLabel(LabelModel labelModel, long labelID);
     }
 }
