@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RepositoryLayer.Context;
+using RepositoryLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +41,7 @@ namespace FundooNotes.Controllers
             }
         }
 
-        [HttpGet("ShowAll")]
+        [HttpGet("GET")]
         public IActionResult GetAllNotes(long userId)
         {
             try
@@ -63,6 +64,22 @@ namespace FundooNotes.Controllers
 
 
 
+        }
+
+
+        [HttpGet]
+        [Route("GetAll")]
+        public IActionResult GetAllUserNotes()
+        {
+            try
+            {
+                IEnumerable<Notes> notes = this.notesBL.GetAllUserNotes();
+                return Ok(notes);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
 

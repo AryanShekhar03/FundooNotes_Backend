@@ -263,6 +263,18 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+
+        public List<Notes> GetAllUserNotes()
+        {
+            try
+            {
+                return this.fundooContext.NotesTable.ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 
     

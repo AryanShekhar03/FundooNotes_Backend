@@ -68,6 +68,19 @@ namespace BusinessLayer.Services
             }
         }
 
+        public List<Notes> GetAllUserNotes()
+        {
+            try
+            {
+                return notesRL.GetAllUserNotes();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public bool Image(long NotesID, IFormFile Image)
         {
             try

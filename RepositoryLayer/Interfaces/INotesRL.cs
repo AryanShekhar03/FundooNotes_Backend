@@ -30,6 +30,8 @@ namespace RepositoryLayer.Interfaces
 
     public bool Image(long NotesID, IFormFile Image);// IFormFile GENERATED from using Microsoft.AspNetCore.Http namespace
 
+    public List<Notes> GetAllUserNotes();
+
 
     }
 
