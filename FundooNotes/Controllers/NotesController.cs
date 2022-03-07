@@ -54,7 +54,7 @@ namespace FundooNotes.Controllers
 
         [HttpGet]
         [HttpGet("redis")]
-        public async Task<IActionResult> GetAllCustomersUsingRedisCache()
+        public async Task<IActionResult> GetAllNotesUsingRedisCache()
         {
             var cacheKey = "AllNOtes";
             string serializedAllNotes;
@@ -70,7 +70,7 @@ namespace FundooNotes.Controllers
                 AllNotes = await fundoocontext.NotesTable.ToListAsync();
                 serializedAllNotes = JsonConvert.SerializeObject(AllNotes);
                 redisAllNotes = Encoding.UTF8.GetBytes(serializedAllNotes);
-                var options = new DistributedCacheEntryOptions()
+                    var options = new DistributedCacheEntryOptions()
                     .SetAbsoluteExpiration(DateTime.Now.AddMinutes(10))
                     .SetSlidingExpiration(TimeSpan.FromMinutes(2));
                 await distributedCache.SetAsync(cacheKey, redisAllNotes, options);
