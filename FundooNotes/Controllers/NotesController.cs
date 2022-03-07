@@ -3,11 +3,16 @@ using CommonLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 using RepositoryLayer.Context;
 using RepositoryLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FundooNotes.Controllers
@@ -17,11 +22,17 @@ namespace FundooNotes.Controllers
     [Authorize] //user to grant and restrict permissions on Web pages.
     public class NotesController : ControllerBase //To handle http request
     {
-        private readonly INotesBL notesBL;  // readonly can only be assigned a value from within the constructor(s) of a class.
+        private readonly INotesBL notesBL;// readonly can only be assigned a value from within the constructor(s) of a class.
+        private readonly FundooContext fundoocontext;
+        private readonly IMemoryCache memoryCache;
+        private readonly IDistributedCache distributedCache;
 
-        public NotesController(INotesBL notesBL)
+        public NotesController(INotesBL notesBL, FundooContext fundoocontext, IMemoryCache memoryCache, IDistributedCache distributedCache)
         {
             this.notesBL = notesBL;
+            this.memoryCache = memoryCache;
+            this.fundoocontext = fundoocontext;
+            this.distributedCache = distributedCache;
         }
 
         [HttpPost]
@@ -39,6 +50,32 @@ namespace FundooNotes.Controllers
             {
                 return this.BadRequest(new { success = false, message = e.InnerException });
             }
+        }
+
+        [HttpGet]
+        [HttpGet("redis")]
+        public async Task<IActionResult> GetAllCustomersUsingRedisCache()
+        {
+            var cacheKey = "AllNOtes";
+            string serializedAllNotes;
+            var AllNotes = new List<Notes>();
+            var redisAllNotes = await distributedCache.GetAsync(cacheKey);
+            if (redisAllNotes != null)
+            {
+                serializedAllNotes = Encoding.UTF8.GetString(redisAllNotes);
+                AllNotes = JsonConvert.DeserializeObject<List<Notes>>(serializedAllNotes);
+            }
+            else
+            {
+                AllNotes = await fundoocontext.NotesTable.ToListAsync();
+                serializedAllNotes = JsonConvert.SerializeObject(AllNotes);
+                redisAllNotes = Encoding.UTF8.GetBytes(serializedAllNotes);
+                var options = new DistributedCacheEntryOptions()
+                    .SetAbsoluteExpiration(DateTime.Now.AddMinutes(10))
+                    .SetSlidingExpiration(TimeSpan.FromMinutes(2));
+                await distributedCache.SetAsync(cacheKey, redisAllNotes, options);
+            }
+            return Ok(AllNotes);
         }
 
         [HttpGet("GET")]
