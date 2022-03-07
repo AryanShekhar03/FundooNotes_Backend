@@ -111,6 +111,12 @@ namespace FundooNotes
             // Labels service
             services.AddTransient<ILabelBL, LabelBL>();
             services.AddTransient<ILabelRL, LabelRL>();
+
+            //redis service
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = "localhost:6379";
+            });
         }
     
 
