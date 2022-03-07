@@ -26,5 +26,7 @@ namespace BusinessLayer.Interfaces
         public string Notescolor(long NotesID, string color);
 
         public bool Image(long NotesID, IFormFile Image);// IFormFile GENERATED from using Microsoft.AspNetCore.Http namespace
+
+        public List<Notes> GetAllUserNotes();
     }
 }

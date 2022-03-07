@@ -34,7 +34,7 @@ namespace RepositoryLayer.Services
                 newUser.FirstName = userRegModel.FirstName;
                 newUser.LastName = userRegModel.LastName;
                 newUser.Email = userRegModel.Email;
-                newUser.Password = userRegModel.Password;
+                newUser.Password = EncryptPassword(userRegModel.Password);
                 fundooContext.UserTables.Add(newUser);
                 int result = fundooContext.SaveChanges();
                 if (result > 0)
@@ -59,7 +59,7 @@ namespace RepositoryLayer.Services
                 if (existingLogin != null)
                 {
                     LoginResponseModel login = new LoginResponseModel();
-                    string token = GenerateSecurityToken(existingLogin.Email, existingLogin.Id);
+                    string token = GenerateSecurityToken(existingLogin.Email, existingLogin.Id);//Token creation
                     login.Id = existingLogin.Id;
                     login.FirstName = existingLogin.FirstName;
                     login.LastName = existingLogin.LastName;
@@ -138,6 +138,17 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+
+        private string EncryptPassword(string password)//Encrypting Password
+        {
+            string enteredpassword = "";
+            byte[] hide = new byte[password.Length];
+            hide = Encoding.UTF8.GetBytes(password);
+            enteredpassword = Convert.ToBase64String(hide);
+            return enteredpassword;
+        }
+
+        
 
 
     }
