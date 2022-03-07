@@ -117,6 +117,7 @@ namespace FundooNotes
             {
                 options.Configuration = "localhost:6379";
             });
+            services.AddMemoryCache();
         }
     
 
